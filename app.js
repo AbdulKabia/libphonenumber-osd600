@@ -22,7 +22,7 @@ let findPhoneNumbers = async arrayOfNumbers => {
         invalidNumbers: []
     };
     let myReturnArry = [];
-    
+
     // Filter through the array looking for numbers
     for (let i = 0; i < arrayOfNumbers.length; i++) {
         let currentNumber;
@@ -41,7 +41,7 @@ let findPhoneNumbers = async arrayOfNumbers => {
             }
             else {
                 numbersArray.invalidNumbers.push(tempNumb);
-            }           
+            }
         }
     }
 
