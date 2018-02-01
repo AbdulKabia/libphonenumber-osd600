@@ -26,7 +26,7 @@ In order to use the POST method, upload a file to the URL `localhost:3000/api/ph
 
 
 ### GET
-The GET method is very simple and only requires that you send send your text you'd like to be parsed to the url `localhost:3000/api/phonenumbers/parse/text/`. So for example: 
+The GET method is very simple and only requires that you send the text you'd like to be parsed to the url `localhost:3000/api/phonenumbers/parse/text/`. So for example: 
 
 ```
 localhost:3000/api/phonenumbers/parse/text/Seneca%20Phone%20Number%3A%20416-154-9036
