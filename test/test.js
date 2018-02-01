@@ -55,7 +55,6 @@ describe('API POST request /api/phonenumbers/parse/file', () => {
             .then(function (response) {
                 expect(response).to.have.status(200);
                 expect(response.body).to.containSubset({ "validNumbers": ["(416) 987-3546", "(647) 315-9753", "(905) 354-1587", "(416) 987-3546"], "invalidNumbers": [] });
-                expect(response).to.have.header('content-type', 'text/plain');
             });
     });
 });
