@@ -2,10 +2,10 @@
   "name": "phonelibapi",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "mocha",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +13,11 @@
     "express": "^4.16.2",
     "google-libphonenumber": "^3.0.10",
     "multer": "^1.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "chai-subset": "^1.6.0",
+    "mocha": "^5.0.0"
   }
 }
