@@ -17,11 +17,11 @@ app.get(`/`, (request, response) => {
 
 // Find phone numbers from given array
 let findPhoneNumbers = async arrayOfNumbers => {
+    // Object to hold returned phone numbers
     let numbersArray = {
         validNumbers: [],
         invalidNumbers: []
     };
-    let myReturnArry = [];
 
     // Filter through the array looking for numbers
     for (let i = 0; i < arrayOfNumbers.length; i++) {
@@ -35,7 +35,10 @@ let findPhoneNumbers = async arrayOfNumbers => {
         }
 
         if (numWasFound) {
+            // Format the found phone number into (xxx) xxx-xxxx
             let tempNumb = phoneUtil.format(currentNumber, PNF.NATIONAL);
+            // Note: Google's library will only properly format the number if it is a valid one
+            // Which is why I do this check and place the number into the correct array
             if (tempNumb.includes('(')) {
                 numbersArray.validNumbers.push(tempNumb);
             }
@@ -49,6 +52,7 @@ let findPhoneNumbers = async arrayOfNumbers => {
 }
 
 app.get(`/api/phonenumbers/parse/text/:givenText?`, async (request, response) => {
+    // Check if param was passed
     if (request.params.givenText) {
         let userData = request.params.givenText.replace(/[^0-9,]/gi, '').split(',');
         let numbersFound = await findPhoneNumbers(userData);
@@ -63,6 +67,7 @@ app.get(`/api/phonenumbers/parse/text/:givenText?`, async (request, response) =>
 });
 
 app.get(`/api/phonenumbers/parse/file/`, async (request, response) => {
+    // Redirect the user to the html page
     response.sendFile(`${__dirname}/post.html`);
 })
 
@@ -71,7 +76,7 @@ app.post(`/api/phonenumbers/parse/file/`, upload.single('myFile'), async (reques
 
         // Read the contents of the uploaded file
         let fileContents = fs.readFileSync(request.file.path);
-        // Convert it to base64 ascii characters
+        // Convert it to base64 with ascii characters
         let asciiContent = Buffer.from(fileContents, 'base64').toString('ascii');
 
         // Replace anything that isn't a number or a comma with nothing
@@ -85,7 +90,5 @@ app.post(`/api/phonenumbers/parse/file/`, upload.single('myFile'), async (reques
         response.status(400).json("No file recieved");
     }
 });
-
-
 
 module.exports = app;
