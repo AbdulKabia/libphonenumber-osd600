@@ -54,7 +54,9 @@ let findPhoneNumbers = async arrayOfNumbers => {
 app.get(`/api/phonenumbers/parse/text/:givenText?`, async (request, response) => {
     // Check if param was passed
     if (request.params.givenText) {
-        let userData = request.params.givenText.replace(/[^0-9,]/gi, '').split(',');
+        // Replace anything that isn't a number or a comma with nothing
+        // split into array by splitting on commans
+        let userData = request.params.givenText.replace(/[^0-9,]/g, '').split(',');
         let numbersFound = await findPhoneNumbers(userData);
 
         response.json(numbersFound);
@@ -81,7 +83,7 @@ app.post(`/api/phonenumbers/parse/file/`, upload.single('myFile'), async (reques
 
         // Replace anything that isn't a number or a comma with nothing
         // split into array by splitting on commans
-        let fileArray = asciiContent.replace(/[^0-9,]/gi, '').split(',');
+        let fileArray = asciiContent.replace(/[^0-9,]/g, '').split(',');
         let numbersFound = await findPhoneNumbers(fileArray);
 
         response.json(numbersFound);
