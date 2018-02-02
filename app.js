@@ -53,7 +53,7 @@ app.get(`/api/phonenumbers/parse/text/:givenText?`, async (request, response) =>
         let userData = request.params.givenText.replace(/[^0-9,]/gi, '').split(',');
         let numbersFound = await findPhoneNumbers(userData);
 
-        response.json(numbersFound ? numbersFound : []);
+        response.json(numbersFound);
     }
 
     else {
@@ -79,7 +79,7 @@ app.post(`/api/phonenumbers/parse/file/`, upload.single('myFile'), async (reques
         let fileArray = asciiContent.replace(/[^0-9,]/gi, '').split(',');
         let numbersFound = await findPhoneNumbers(fileArray);
 
-        response.json(numbersFound ? numbersFound : []);
+        response.json(numbersFound);
     }
     else {
         response.status(400).json("No file recieved");
