@@ -28,6 +28,7 @@ let findPhoneNumbers = async arrayOfNumbers => {
         let currentNumber;
         let numWasFound = true;
         try {
+            // Try to find a number using given element
             currentNumber = phoneUtil.parse(arrayOfNumbers[i], 'CA');
         }
         catch (error) {
