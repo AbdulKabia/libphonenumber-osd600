@@ -6,7 +6,7 @@ let multer = require(`multer`);
 let upload = multer({ dest: `uploads/` });
 let PNF = require(`google-libphonenumber`).PhoneNumberFormat; // Require `PhoneNumberFormat`. 
 let phoneUtil = require(`google-libphonenumber`).PhoneNumberUtil.getInstance();// Get an instance of `PhoneNumberUtil`.
-
+let pdfText = require('pdf-text');
 if (!module.parent) app.listen(3000);
 
 
@@ -16,7 +16,7 @@ app.get(`/`, (request, response) => {
 });
 
 // Find phone numbers from given array
-let findPhoneNumbers = async arrayOfNumbers => {
+let findPhoneNumbers = arrayOfNumbers => {
     // Object to hold returned phone numbers
     let numbersArray = {
         validNumbers: [],
@@ -76,17 +76,24 @@ app.get(`/api/phonenumbers/parse/file/`, async (request, response) => {
 app.post(`/api/phonenumbers/parse/file/`, upload.single('myFile'), async (request, response) => {
     if (request.file) {
 
-        // Read the contents of the uploaded file
-        let fileContents = fs.readFileSync(request.file.path);
-        // Convert it to base64 with ascii characters
-        let asciiContent = Buffer.from(fileContents, 'base64').toString('ascii');
+        if (request.file.originalname.match(/.*.pdf/)) {
+            pdfText(request.file.path, (err, contents) => {
+                let myResponse = findPhoneNumbers(contents);
+                response.status(200).json(myResponse);
+            });
+        } else {
+            // Read the contents of the uploaded file
+            let fileContents = fs.readFileSync(request.file.path);
+            // Convert it to base64 with ascii characters
+            let asciiContent = Buffer.from(fileContents, 'base64').toString('ascii');
 
-        // Replace anything that isn't a number or a comma with nothing
-        // split into array by splitting on commas
-        let fileArray = asciiContent.replace(/[^0-9,]/g, '').split(',');
-        let numbersFound = await findPhoneNumbers(fileArray);
+            // Replace anything that isn't a number or a comma with nothing
+            // split into array by splitting on commas
+            let fileArray = asciiContent.replace(/[^0-9,]/g, '').split(',');
+            let numbersFound = await findPhoneNumbers(fileArray);
 
-        response.json(numbersFound);
+            response.json(numbersFound);
+        }
     }
     else {
         response.status(400).json("No file recieved");
