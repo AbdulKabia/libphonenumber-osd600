@@ -28,6 +28,7 @@ let findPhoneNumbers = arrayOfNumbers => {
         let currentNumber;
         let numWasFound = true;
         try {
+          // Try to find a number using given element
             currentNumber = phoneUtil.parse(arrayOfNumbers[i], 'CA');
         }
         catch (error) {
@@ -99,5 +100,4 @@ app.post(`/api/phonenumbers/parse/file/`, upload.single('myFile'), async (reques
         response.status(400).json("No file recieved");
     }
 });
-
 module.exports = app;
