@@ -100,4 +100,9 @@ app.post(`/api/phonenumbers/parse/file/`, upload.single('myFile'), async (reques
         response.status(400).json("No file recieved");
     }
 });
+
+app.get('*', (req, res) =>{
+    res.status(404).send("<h2>The Page you looking for is not found. <br/>Error: 404</h2>");
+})
+
 module.exports = app;
