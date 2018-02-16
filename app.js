@@ -7,7 +7,10 @@ let upload = multer({ dest: `uploads/` });
 let PNF = require(`google-libphonenumber`).PhoneNumberFormat; // Require `PhoneNumberFormat`. 
 let phoneUtil = require(`google-libphonenumber`).PhoneNumberUtil.getInstance();// Get an instance of `PhoneNumberUtil`.
 let pdfText = require('pdf-text');
-if (!module.parent) app.listen(3000);
+if (!module.parent) {
+    app.listen(3000);
+    console.log(`App is running and listening on port: 3000`);
+}
 
 
 // Initialize default route
